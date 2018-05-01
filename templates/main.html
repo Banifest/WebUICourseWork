@@ -15,8 +15,21 @@
 
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="group-id" value="{{ group.id }}">
-            <input name="color" type="color">
+            <input type="color" name="color">
             <button type="submit" name="change-color">Change color</button>
+        </form>
+        <form method="post">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+            <input type="number" name="priority" placeholder="priority of group">
+            Select color <input type="color" name="color"><br>
+            <input type="text" name="name" placeholder="name of group"><br>
+            <button type="submit" name="add-group">Create group</button>
+        </form>
+        <form method="post">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="hidden" name="group-id" value="{{ group.id }}">
+            <button type="submit" name="delete-group">Delete group</button>
         </form>
 
         <form method="post">

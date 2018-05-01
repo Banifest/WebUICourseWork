@@ -9,4 +9,8 @@ from webui.exceptions import AuthException
 class HandleExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         if isinstance(exception, AuthException):
-            return redirect('/auth', permanent=True)
+            response = redirect('/auth', permanent=True)
+            response.delete_cookie('login')
+            response.delete_cookie('sessionid')
+            response.delete_cookie('csrftoken')
+            return response

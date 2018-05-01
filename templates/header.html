@@ -8,8 +8,16 @@
 <body>
     <p>header</p>
     <div align="right">
-        <a href="reg.html">Register</a>
-        <a href="auth.html">Log in</a>
+        {% if user_info %}
+            <form method="post" action="./logout">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="submit" value="LogOut">
+            </form>
+        {% else %}
+            <a href="reg.html">Register</a>
+            <a href="auth.html">Log in</a>
+        {% endif %}
+
         {# <a href="auth.html">Log in</a> #}
     </div>
 </body>

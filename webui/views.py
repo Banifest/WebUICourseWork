@@ -12,7 +12,7 @@ from django.views.generic import TemplateView
 from jinja2 import Template
 
 from webui.exceptions import AuthException
-from webui.req import BASE_API_URL, get_url
+from webui.req import get_url, do_request
 
 
 class AuthView(TemplateView):
@@ -30,13 +30,11 @@ class AuthView(TemplateView):
         if res.status_code == 201:
             response = redirect('/main/', permanent=True,)
             response.set_cookie('login', request.POST['login'])
+            response.set_cookie('csrftoken', res.cookies.get('csrftoken'))
+            response.set_cookie('sessionid', res.cookies.get('sessionid'))
             return response
         else:
             return self.render_to_response(context={'error': 'No possible auth'})
-
-
-class LogOut(TemplateView):
-    template_name = 'auth.html'
 
 
 class IndexView(TemplateView):
@@ -47,6 +45,13 @@ class IndexView(TemplateView):
             return redirect('/main/', permanent=True)
         else:
             return redirect('/auth/', permanent=True)
+
+
+class LogOut(TemplateView):
+    template_name = 'auth.html'
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        raise AuthException()
 
 
 class RegView(TemplateView):
@@ -93,38 +98,51 @@ class MainView(TemplateView):
             'groups': groups_dict
         })
 
-    #@csrf_exempt
     def post(self, request, *args, **kwargs):
         if 'change-color' in request.POST:
-            requests.request(
+            do_request(
                     'PATCH',
-                    get_url('users', 'banifest') + 'groups/{0}/'.format(request.POST['group-id']),
-                    json={"color": request.POST['color'],},
-                    cookies=request.COOKIES,
-                    headers={'X-CSRFTOKEN': request.COOKIES['csrftoken']},
+                    'groups',
+                    request,
+                    obj=request.POST['group-id'],
+                    data={"color": request.POST['color'],},
             )
         elif 'delete-ref' in request.POST:
-            requests.request(
+            do_request(
                     'DELETE',
-                    get_url('users', 'banifest') + 'references/{0}/'.format(request.POST['ref-id']),
-                    cookies=request.COOKIES,
-                    headers={'X-CSRFTOKEN': request.COOKIES['csrftoken']},
+                    'references',
+                    request,
+                    obj=request.POST['ref-id'],
             )
         elif 'add-ref' in request.POST:
-            a = requests.request(
+            do_request(
                     'POST',
-                    get_url('users', 'banifest') + 'references/',
-                    json={'name': request.POST['name'], 'ref_url': request.POST['url'], 'group': request.POST['group-id']},
-                    cookies=request.COOKIES,
-                    headers={'X-CSRFTOKEN': request.COOKIES['csrftoken']},
+                    'references',
+                    request,
+                    obj=request.POST['ref-id'],
+                    data={
+                        'name': request.POST['name'],
+                        'ref_url': request.POST['url'],
+                        'group': request.POST['group-id']
+                    },
             )
         elif 'add-group' in request.POST:
-            a = requests.request(
+            do_request(
                     'POST',
-                    get_url('users', 'banifest') + 'group/',
-                    json={'name': request.POST['name'], 'ref_url': request.POST['url'], 'group': request.POST['group-id']},
-                    cookies=request.COOKIES,
-                    headers={'X-CSRFTOKEN': request.COOKIES['csrftoken']},
+                    'groups',
+                    request,
+                    data={
+                        'name': request.POST['name'],
+                        'color': request.POST['color'],
+                        'priority': request.POST['priority']
+                    },
+            )
+        elif 'delete-group' in request.POST:
+            do_request(
+                    'DELETE',
+                    'groups',
+                    request,
+                    obj=request.POST['group-id'],
             )
 
         return self.get(request, *args, **kwargs)
