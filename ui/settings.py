@@ -46,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'webui.error_handler.HandleExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'ui.urls'
@@ -118,5 +119,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    'static',
+]
 
 STATIC_URL = '/static/'
