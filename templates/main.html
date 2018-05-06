@@ -9,31 +9,55 @@
     {% include 'header.html' %}
 
     <dl>
-    <form method="post">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#createGroupCollapse"
+                aria-expanded="false" aria-controls="createGroupCollapse">
+            Create group
+        </button>
+            <form method="post" class="collapse" id="createGroupCollapse">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
             <input type="number" name="priority" placeholder="priority of group">
-            Select color <input type="color" name="color"><br>
+                <p>Select color</p>
+                <label>
+                    <input type="color" name="color">
+                </label><br>
             <input type="text" name="name" placeholder="name of group"><br>
             <button type="submit" name="add-group">Create group</button>
-    </form>
+        </form>
     {% for group in groups.values() %}
-        <div style="background-color: {{ group.color }}">
-        <form method="post">
-            <h2>{{ group.name }}: {{ group.refs|length }}</h2>
+        <div style="background-color: {{ group.color }}" class="container">
+        <h2>{{ group.name }}: {{ group.refs|length }}</h2>
+        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                    data-target="#changeColorCollapse{{ group.id }}"
+                    aria-expanded="false" aria-controls="changeColorCollapse{{ group.id }}">
+                Change color
+            </button>
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                    data-target="#deleteGroupCollapse{{ group.id }}"
+                    aria-expanded="false" aria-controls="deleteGroupCollapse{{ group.id }}">
+                Delete Group
+            </button>
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                    data-target="#addRefCollapse{{ group.id }}"
+                    aria-expanded="false" aria-controls="addRefCollapse{{ group.id }}">
+                Add reference
+            </button>
+        </p>
 
+        <form method="post" class="collapse" id="changeColorCollapse{{ group.id }}">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="group-id" value="{{ group.id }}">
             <input type="color" name="color">
             <button type="submit" name="change-color">Change color</button>
         </form>
-        <form method="post">
+        <form method="post" class="collapse" id="deleteGroupCollapse{{ group.id }}">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="group-id" value="{{ group.id }}">
             <button type="submit" name="delete-group">Delete group</button>
         </form>
 
-        <form method="post">
+        <form method="post" class="collapse" id="addRefCollapse{{ group.id }}">
             Add reference
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="group-id" value="{{ group.id }}">
@@ -46,12 +70,32 @@
             <dd>
                 {% for reference in group.refs%}
                     <div>
-                        <form method="post">
-                            <a href="{{ reference.ref_url }}">{{ reference.name }}</a>
+                    <p>
+                         <a href="{{ reference.ref_url }}">{{ reference.name }}</a>
+                         <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                 data-target="#delRefCollapse{{ reference.id }}"
+                                 aria-expanded="false" aria-controls="delRefCollapse{{ reference.id }}">
+                            Delete reference
+                         </button>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                 data-target="#changeRefCollapse{{ reference.id }}"
+                                 aria-expanded="false" aria-controls="changeRefCollapse{{ reference.id }}">
+                            Change reference
+                         </button>
+                    </p>
+
+                        <form method="post" class="collapse" id="delRefCollapse{{ reference.id }}">
                             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                             <input type="hidden" name="ref-id" value="{{ reference.id }}">
-                            <img src="{{ static("img/logout.png") }}" width="35px" height="35px">
                             <button type="submit" name="delete-ref">delete</button>
+                        </form>
+
+                        <form method="post" class="collapse" id="changeRefCollapse{{ reference.id }}">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                            <input type="hidden" name="ref-id" value="{{ reference.id }}">
+                            <input type="url" name="url">
+                            <input type="name" name="name">
+                            <button type="submit" name="change-ref">Change reference</button>
                         </form>
                     </div>
                 {% endfor %}

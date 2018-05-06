@@ -5,6 +5,7 @@
     <title>Registration</title>
 </head>
 <body>
+    {% include 'header.html' %}
     <form method="post" action="reg.html">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
@@ -15,6 +16,7 @@
         <input type="text" name="firstName" placeholder="firstName"> <br>
         <input type="text" name="lastName" placeholder="lastName"> <br>
         <button type="submit" name="try">Register</button> <br>
-</form>
+    </form>
+    {% include 'footer.html' %}
 </body>
 </html>

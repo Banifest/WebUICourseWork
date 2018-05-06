@@ -5,9 +5,12 @@
     <title>Стартовая тестовая страница</title>
 </head>
 <body>
+    {% include 'header.html' %}
     <form action="auth.html" method="get">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
         <button type="submit">Log in</button> <br>
     </form>
+
+    {% include 'footer.html' %}
 </body>
 </html>
