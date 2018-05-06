@@ -9,25 +9,32 @@
     {% include 'header.html' %}
 
     <dl>
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#createGroupCollapse"
+        <div class="container">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#createGroupCollapse"
                 aria-expanded="false" aria-controls="createGroupCollapse">
             Create group
         </button>
             <form method="post" class="collapse" id="createGroupCollapse">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-            <input type="number" name="priority" placeholder="priority of group">
-                <p>Select color</p>
-                <label>
-                    <input type="color" name="color">
-                </label><br>
-            <input type="text" name="name" placeholder="name of group"><br>
-            <button type="submit" name="add-group">Create group</button>
-        </form>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="number" name="priority" placeholder="priority of group">
+                    <p>Select color</p>
+                    <label>
+                        <input type="color" name="color">
+                    </label><br>
+                <input type="text" name="name" placeholder="name of group"><br>
+                <button type="submit" name="add-group">Create group</button>
+            </form>
+        </div>
     {% for group in groups.values() %}
         <div style="background-color: {{ group.color }}" class="container">
-        <h2>{{ group.name }}: {{ group.refs|length }}</h2>
-        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse"
+                        data-target="#showHideRefsCollapse{{ group.id }}"
+                        aria-expanded="false" aria-controls="showHideRefsCollapse{{ group.id }}">
+                <h2>{{ group.name }}: {{ group.refs|length }}</h2>
+            </button>
+            <div class="collapse" id="showHideRefsCollapse{{ group.id }}">
+
+            <p>
             <button class="btn btn-primary" type="button" data-toggle="collapse"
                     data-target="#changeColorCollapse{{ group.id }}"
                     aria-expanded="false" aria-controls="changeColorCollapse{{ group.id }}">
@@ -43,7 +50,7 @@
                     aria-expanded="false" aria-controls="addRefCollapse{{ group.id }}">
                 Add reference
             </button>
-        </p>
+            </p>
 
         <form method="post" class="collapse" id="changeColorCollapse{{ group.id }}">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
@@ -100,6 +107,7 @@
                     </div>
                 {% endfor %}
             </dd>
+            </div>
         </div>
     {% endfor %}
     </dl>
