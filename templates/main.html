@@ -7,11 +7,20 @@
 </head>
 <body>
     {% include 'header.html' %}
+
     <dl>
+    <form method="post">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+            <input type="number" name="priority" placeholder="priority of group">
+            Select color <input type="color" name="color"><br>
+            <input type="text" name="name" placeholder="name of group"><br>
+            <button type="submit" name="add-group">Create group</button>
+    </form>
     {% for group in groups.values() %}
         <div style="background-color: {{ group.color }}">
         <form method="post">
-            Группа {{ group.name }} Количество записей {{ group.refs|length }}
+            <h2>{{ group.name }}: {{ group.refs|length }}</h2>
 
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="group-id" value="{{ group.id }}">
@@ -20,20 +29,12 @@
         </form>
         <form method="post">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-            <input type="number" name="priority" placeholder="priority of group">
-            Select color <input type="color" name="color"><br>
-            <input type="text" name="name" placeholder="name of group"><br>
-            <button type="submit" name="add-group">Create group</button>
-        </form>
-        <form method="post">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="group-id" value="{{ group.id }}">
             <button type="submit" name="delete-group">Delete group</button>
         </form>
 
         <form method="post">
-            Добавить запись в группу
+            Add reference
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             <input type="hidden" name="group-id" value="{{ group.id }}">
 
@@ -49,6 +50,7 @@
                             <a href="{{ reference.ref_url }}">{{ reference.name }}</a>
                             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                             <input type="hidden" name="ref-id" value="{{ reference.id }}">
+                            <img src="{{ static("img/logout.png") }}" width="35px" height="35px">
                             <button type="submit" name="delete-ref">delete</button>
                         </form>
                     </div>

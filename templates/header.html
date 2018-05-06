@@ -1,24 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
     <meta charset="UTF-8">
     <title>Footer</title>
+    <link rel="stylesheet" href="{{ static("css/header.css") }}">
     <script type="text/javascript" src="{{ static("js/jquery-3.3.1.min.js") }}"></script>
-</head>
-<body>
-    <p>header</p>
-    <div align="right">
+    <div class="headerStyle">
         {% if user_info %}
             <form method="post" action="./logout">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                <input type="submit" value="LogOut">
+                <button type="submit" class="headerLogOut" value="LogOut">Log Out</button>
             </form>
         {% else %}
             <a href="reg.html">Register</a>
             <a href="auth.html">Log in</a>
         {% endif %}
-
-        {# <a href="auth.html">Log in</a> #}
     </div>
-</body>
 </html>
