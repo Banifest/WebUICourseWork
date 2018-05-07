@@ -8,6 +8,8 @@ class AuthView(TemplateView):
     template_name = 'auth.html'
 
     def get(self, request, *args, **kwargs):
+        if 'login' in request.COOKIES:
+            return redirect('main.html', permanent=True)
         return self.render_to_response(context={})
 
     def post(self, request: HttpRequest) -> HttpResponse:
@@ -20,7 +22,7 @@ class AuthView(TemplateView):
                 },
             )
         if res.status_code == 201:
-            response = redirect('/main/', permanent=True,)
+            response = redirect('main.html', permanent=True,)
             response.set_cookie('login', request.POST['login'])
             response.set_cookie('csrftoken', res.cookies.get('csrftoken'))
             response.set_cookie('sessionid', res.cookies.get('sessionid'))

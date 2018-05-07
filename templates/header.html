@@ -9,9 +9,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
     <div class="container" style="background-color: slategrey;">
         {% if user_info %}
-            <form method="post" action="./logout">
+            <form method="post" action="logout.html">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                <button type="submit" class="btn btn-success" value="LogOut">Log Out</button>
+                <button type="submit" class="btn btn-danger" value="LogOut">Log Out</button>
             </form>
         {% else %}
             <a href="reg.html" class="btn btn-success">Register</a>

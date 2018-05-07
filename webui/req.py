@@ -12,12 +12,17 @@ def get_url(url: str, user: str, str=None):
 
 
 def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str = None, data: dict = None,
-               query: dict = None) \
+               query: dict = None, auth=True) \
         -> requests.Response:
-    if 'login' not in request.COOKIES:
+    request_url: str
+    if auth == True and 'login' not in request.COOKIES:
         raise AuthException()
 
-    request_url = '{0}/users/{1}/{2}/'.format(BASE_API_URL, request.COOKIES['login'], url)
+    if auth:
+        request_url = '{0}/users/{1}/{2}/'.format(BASE_API_URL, request.COOKIES['login'], url)
+    else:
+        request_url = '{0}/users/{1}/'.format(BASE_API_URL, url)
+
     if request_url[-2:] == '//':
         request_url = request_url[:-1]
 
@@ -48,6 +53,9 @@ def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str
 
     if res.status_code == 403:
         raise AuthException()
+
+    if res.status_code // 100 != 2:
+        pass  # TODO обработчик ошибок
 
     return res
 
