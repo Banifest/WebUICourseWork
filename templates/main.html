@@ -22,7 +22,7 @@
                 <input type="color" name="color">
             </label><br>
             <input type="text" name="name" placeholder="name of group"><br>
-            <button type="submit" name="add-group">Create group</button>
+            <button type="submit" class="btn btn-primary" name="add-group">Create group</button>
         </form>
     </div>
     {% for group in groups.values() %}
@@ -56,12 +56,12 @@
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                     <input type="hidden" name="group-id" value="{{ group.id }}">
                     <input type="color" name="color">
-                    <button type="submit" name="change-color">Change color</button>
+                    <button type="submit" class="btn btn-primary" name="change-color">Change color</button>
                 </form>
                 <form method="post" class="collapse" id="deleteGroupCollapse{{ group.id }}">
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                     <input type="hidden" name="group-id" value="{{ group.id }}">
-                    <button type="submit" name="delete-group">Delete group</button>
+                    <button type="submit" class="btn btn-danger" name="delete-group">Delete group</button>
                 </form>
 
                 <form method="post" class="collapse" id="addRefCollapse{{ group.id }}">
@@ -72,7 +72,7 @@
                     <input type="url" name="url" placeholder="Input url">
                     <input type="text" name="name" placeholder="Input site name">
 
-                    <button type="submit" name="add-ref">Add reference</button>
+                    <button type="submit" class="btn btn-primary"    name="add-ref">Add reference</button>
                 </form>
                 <dd>
                     {% for reference in group.refs %}

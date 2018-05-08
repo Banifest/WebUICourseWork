@@ -54,7 +54,7 @@ def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str
     if res.status_code == 403:
         raise AuthException()
 
-    if res.status_code // 100 != 2:
+    if res.status_code // 100 in {4, 5}:
         pass  # TODO обработчик ошибок
 
     return res

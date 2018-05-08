@@ -21,60 +21,24 @@ class SettingView(TemplateView):
         return self.render_to_response(context={'user_info': res})
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        if 'change-color' in request.POST:
-            do_request(
-                    'PATCH',
-                    'groups',
-                    request,
-                    obj=request.POST['group-id'],
-                    data={"color": request.POST['color'], },
-            )
-        elif 'delete-ref' in request.POST:
-            do_request(
-                    'DELETE',
-                    'references',
-                    request,
-                    obj=request.POST['ref-id'],
-            )
-        elif 'add-ref' in request.POST:
-            do_request(
-                    'POST',
-                    'references',
-                    request,
-                    data={
-                        'name': request.POST['name'],
-                        'ref_url': request.POST['url'],
-                        'group': request.POST['group-id']
-                    },
-            )
-        elif 'add-group' in request.POST:
-            do_request(
-                    'POST',
-                    'groups',
-                    request,
-                    data={
-                        'name': request.POST['name'],
-                        'color': request.POST['color'],
-                        'priority': request.POST['priority']
-                    },
-            )
-        elif 'delete-group' in request.POST:
-            do_request(
-                    'DELETE',
-                    'groups',
-                    request,
-                    obj=request.POST['group-id'],
-            )
-        elif 'change-ref' in request.POST:
+        if 'change-pass' in request.POST:
+            if request.POST['password1'] == request.POST['password2']:
+                res = do_request(
+                        method='PATCH',
+                        request=request,
+                        data={
+                            "password": request.POST['password1'],
+                        },
+                        auth=False,
+                )
+        elif 'change-user' in request.POST:
             do_request(
                     method='PATCH',
-                    url='references',
                     request=request,
-                    obj=request.POST['ref-id'],
                     data={
-                        'ref_url': request.POST['url'],
-                        'name': request.POST['name'],
+                        'first_name': request.POST['first-name'],
+                        'last_name': request.POST['last-name'],
+                        'email': request.POST['email'],
                     }
             )
-
         return self.get(request)

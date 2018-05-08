@@ -12,6 +12,7 @@
             <form method="post" action="logout.html">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <button type="submit" class="btn btn-danger" value="LogOut">Log Out</button>
+                <a href="setting.html" class="btn btn-success">Settings</a>
             </form>
         {% else %}
             <a href="reg.html" class="btn btn-success">Register</a>

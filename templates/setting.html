@@ -8,31 +8,54 @@
 <body>
 {% include 'header.html' %}
 <div class="container">
-    <form>
+    <form method="post">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Username</span>
             </div>
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+            <input type="text"
+                   class="form-control"
+                   placeholder="Username"
+                   aria-label="Username"
+                   readonly
                    aria-describedby="basic-addon1" value="{{ user_info.username }}">
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">First Name</span>
             </div>
-            <input type="text" class="form-control" placeholder="First Name" aria-label="First Name"
-                   aria-describedby="basic-addon1" value="{{ user_info.first_name }}">
+            <input type="text" name="first-name"
+                   class="form-control"
+                   placeholder="First Name"
+                   aria-label="First Name"
+                   aria-describedby="basic-addon1"
+                   value="{{ user_info.first_name }}">
         </div>
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Last Name</span>
             </div>
-            <input type="text" class="form-control" placeholder="Last Name" aria-label="Last Name"
-                   aria-describedby="basic-addon1" value="{{ user_info.last_name }}">
+            <input type="text"
+                   class="form-control" name="last-name"
+                   placeholder="Last Name"
+                   aria-label="Last Name"
+                   aria-describedby="basic-addon1"
+                   value="{{ user_info.last_name }}">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Email</span>
+            </div>
+            <input type="email" name="email"
+                   class="form-control"
+                   placeholder="Email"
+                   aria-label="Email"
+                   aria-describedby="basic-addon1"
+                   value="{{ user_info.email }}">
         </div>
 
-        <button class="btn btn-primary" type="submit">
+        <button class="btn btn-primary" name="change-user" type="submit">
             Change user
         </button>
         <button class="btn btn-danger"
@@ -46,9 +69,23 @@
         <div class="collapse" id="changePasswordCollapse">
             <form method="post">
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                <input type="password" name="password1">
-                <input type="password" name="password2">
-                <input type="submit" value="Change password">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">New password</span>
+                    </div>
+                    <input type="password"
+                           name="password1"
+                           class="form-control">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Repeat password</span>
+                    </div>
+                    <input type="password"
+                           name="password2"
+                           class="form-control">
+                </div>
+                <input type="submit" name="change-pass" value="Change password" class="btn btn-danger">
             </form>
         </div>
 
