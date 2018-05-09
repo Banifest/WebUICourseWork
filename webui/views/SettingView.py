@@ -25,11 +25,11 @@ class SettingView(CustomTemplateView):
             if request.POST['password1'] == request.POST['password2']:
                 res = do_request(
                         method='PATCH',
+                        url='change-password',
                         request=request,
                         data={
                             "password": request.POST['password1'],
                         },
-                        auth=False,
                 )
         elif 'change-user' in request.POST:
             do_request(
