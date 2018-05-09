@@ -47,8 +47,8 @@ def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str
                 headers={'X-CSRFTOKEN': request.COOKIES['csrftoken']},
         )
 
-    if res.status_code == 403:
-        raise AuthException()
+    if 'detail' in res.json() and res.json()['detail'] == 'Authentication credentials were not provided.':
+         raise AuthException()
 
     if res.status_code // 100 in {4, 5}:
         raise ErrorStatus(res.status_code, res.json())

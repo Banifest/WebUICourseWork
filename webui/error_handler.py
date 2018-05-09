@@ -16,6 +16,6 @@ class HandleExceptionMiddleware(MiddlewareMixin):
             response.delete_cookie('csrftoken')
             return response
         elif isinstance(exception, ErrorStatus):
-            response = redirect('{0}?status_code={1}'.format(request.path,  exception.status['status']),
+            response = redirect('{0}?status_code={1}'.format(request.path,  exception.detail['detail']),
                                 permanent=True)
             return response

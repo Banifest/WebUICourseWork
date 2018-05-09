@@ -1,16 +1,19 @@
 import requests
+from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
 from webui.CustomTemplateView import CustomTemplateView
-from webui.exceptions import ErrorStatus
+from webui.exceptions import ErrorStatus, AuthException
 
 
 class AuthView(CustomTemplateView):
     template_name = 'auth.html'
 
     def get(self, request, *args, **kwargs):
+        if 'login' in request.COOKIES and request.user == AnonymousUser():
+            raise AuthException()
         if 'login' in request.COOKIES:
             return redirect('main.html', permanent=True)
         return self.re_render_to_response(context={}, request=request)
@@ -23,9 +26,9 @@ class AuthView(CustomTemplateView):
                     'username': request.POST['login'],
                     'password': request.POST['password']
                 },
-            )
+        )
         if res.status_code == 201:
-            response = redirect('main.html', permanent=True,)
+            response = redirect('main.html', permanent=True, )
             response.set_cookie('login', request.POST['login'])
             response.set_cookie('csrftoken', res.cookies.get('csrftoken'))
             response.set_cookie('sessionid', res.cookies.get('sessionid'))
