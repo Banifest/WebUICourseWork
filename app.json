@@ -1,7 +1,7 @@
 {
   "name": "Cursach PSCA",
   "description": "Cursach PSCA.",
-  "repository": "https://github.com/Banifest/PSCPACourseWork",
+  "repository": "https://github.com/Banifest/",
   "keywords": ["python", "django" ],
   "env": {
     "SECRET_KEY": {

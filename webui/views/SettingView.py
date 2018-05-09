@@ -1,12 +1,12 @@
 import requests
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
-from django.views.generic import TemplateView
 
+from webui.CustomTemplateView import CustomTemplateView
 from webui.req import do_request
 
 
-class SettingView(TemplateView):
+class SettingView(CustomTemplateView):
     template_name = 'setting.html'
 
     def get(self, request, *args, **kwargs):
@@ -18,7 +18,7 @@ class SettingView(TemplateView):
                 request=request,
         ).json()
 
-        return self.render_to_response(context={'user_info': res})
+        return self.re_render_to_response(context={'user_info': res}, request=request)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         if 'change-pass' in request.POST:

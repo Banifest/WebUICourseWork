@@ -2,10 +2,11 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
+from webui.CustomTemplateView import CustomTemplateView
 from webui.req import do_request
 
 
-class RegView(TemplateView):
+class RegView(CustomTemplateView):
     template_name = 'reg.html'
 
     def get(self, request, *args, **kwargs):
@@ -26,4 +27,4 @@ class RegView(TemplateView):
                 },
                 auth=False,
         )
-        return self.render_to_response(context={})
+        return self.re_render_to_response(context={}, request=request)

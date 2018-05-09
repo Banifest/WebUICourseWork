@@ -2,10 +2,11 @@
 import requests
 from django.views.generic import TemplateView
 
-from webui.req import do_request, get_url, get_all_items
+from webui.CustomTemplateView import CustomTemplateView
+from webui.req import do_request, get_all_items
 
 
-class MainView(TemplateView):
+class MainView(CustomTemplateView):
     template_name = 'main.html'
 
     def get(self, request, *args, **kwargs):
@@ -25,10 +26,11 @@ class MainView(TemplateView):
         for x in references:
             groups_dict[x['group']]['refs'].append(x)
 
-        return self.render_to_response(context={
+        return self.re_render_to_response(context={
             'user_info': user,
             'groups': groups_dict
-        })
+        },
+        request=request)
 
     def post(self, request, *args, **kwargs):
         if 'change-color' in request.POST:

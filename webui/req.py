@@ -1,14 +1,10 @@
 import requests
 from django.http import HttpRequest
 
-from webui.exceptions import AuthException
+from webui.exceptions import AuthException, ErrorStatus
 
-BASE_API_URL = 'http://127.0.0.1:8000/api'
-
-
-def get_url(url: str, user: str, str=None):
-    return '{0}/{1}/{2}/'.format(BASE_API_URL, url, user) \
-        if user else '{0}/{1}/'.format(BASE_API_URL, url)
+#BASE_API_URL = 'http://127.0.0.1:8000/api'
+BASE_API_URL = 'https://pscaserv.herokuapp.com/api'
 
 
 def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str = None, data: dict = None,
@@ -55,7 +51,7 @@ def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str
         raise AuthException()
 
     if res.status_code // 100 in {4, 5}:
-        pass  # TODO обработчик ошибок
+        raise ErrorStatus(res.status_code, res.json())
 
     return res
 

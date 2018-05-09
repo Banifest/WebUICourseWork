@@ -2,10 +2,11 @@ from django.http import HttpResponse, HttpRequest
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
+from webui.CustomTemplateView import CustomTemplateView
 from webui.exceptions import AuthException
 
 
-class LogOutView(TemplateView):
+class LogOutView(CustomTemplateView):
     template_name = 'logout.html'
 
     def get(self, request, *args, **kwargs):

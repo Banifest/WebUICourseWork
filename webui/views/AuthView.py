@@ -3,14 +3,17 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView
 
+from webui.CustomTemplateView import CustomTemplateView
+from webui.exceptions import ErrorStatus
 
-class AuthView(TemplateView):
+
+class AuthView(CustomTemplateView):
     template_name = 'auth.html'
 
     def get(self, request, *args, **kwargs):
         if 'login' in request.COOKIES:
             return redirect('main.html', permanent=True)
-        return self.render_to_response(context={})
+        return self.re_render_to_response(context={}, request=request)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         res = requests.request(
@@ -28,4 +31,4 @@ class AuthView(TemplateView):
             response.set_cookie('sessionid', res.cookies.get('sessionid'))
             return response
         else:
-            return self.render_to_response(context={'error': 'No possible auth'})
+            raise ErrorStatus(status_code=res.status_code, status=res.json())
