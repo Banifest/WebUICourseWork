@@ -13,8 +13,6 @@ class AuthView(CustomTemplateView):
     template_name = 'auth.html'
 
     def get(self, request, *args, **kwargs):
-        if 'login' in request.COOKIES and request.user == AnonymousUser():
-            raise AuthException()
         if 'login' in request.COOKIES:
             return redirect('main.html', permanent=True)
         return self.re_render_to_response(context={}, request=request)
