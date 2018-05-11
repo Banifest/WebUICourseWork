@@ -4,20 +4,30 @@
     <meta charset="UTF-8">
     <title>Authorization</title>
 </head>
-    <body>
-        {% include 'header.html' %}
+<body>
+{% include 'header.html' %}
 
-        <form method="post" action="auth.html" class="container">
-            {% if error %}
-                <p>{{ error }}</p>
-            {% endif %}
-            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-            <input type="text" name="login" placeholder="Login"> <br>
-            <input type="password" name="password" placeholder="Password"> <br>
-            <button type="submit" class="btn btn" name="try">Log in</button>
-            <br>
-        </form>
+<form method="post" action="auth.html" class="container">
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Username:</span>
+        </div>
+        <input type="text" name="login" placeholder="Login" class="form-control"> <br>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Password:</span>
+        </div>
+        <input type="password" name="password" placeholder="Password" class="form-control"> <br>
+    </div>
+    <button type="submit" class="btn btn" name="try">Log in</button>
+    <br>
+</form>
 
-        {% include 'footer.html' %}
-    </body>
+{% include 'footer.html' %}
+</body>
 </html>

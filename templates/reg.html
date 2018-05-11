@@ -5,18 +5,56 @@
     <title>Registration</title>
 </head>
 <body>
-    {% include 'header.html' %}
-    <form method="post" action="reg.html" class="container">
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+{% include 'header.html' %}
+<form method="post" action="reg.html" class="container">
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
-        <input type="text" name="username" placeholder="Login"> <br>
-        <input type="email" name="email" placeholder="Email"> <br>
-        <input type="password" name="password" placeholder="Password"> <br>
-        <input type="password" name="repeat_password" placeholder="Password"> <br>
-        <input type="text" name="firstName" placeholder="firstName"> <br>
-        <input type="text" name="lastName" placeholder="lastName"> <br>
-        <button type="submit" name="register">Register</button> <br>
-    </form>
-    {% include 'footer.html' %}
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Login</span>
+        </div>
+        <input type="text" name="username" placeholder="Login" class="form-control"> <br>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Email</span>
+        </div>
+            <input type="email" name="email" placeholder="Email" class="form-control"> <br>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Password</span>
+        </div>
+            <input type="password" name="password" placeholder="Password" class="form-control"> <br>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Repeat password</span>
+        </div>
+            <input type="password" name="repeat_password" placeholder="Password" class="form-control"> <br>
+    </div>
+
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">First name</span>
+        </div>
+            <input type="text" name="firstName" placeholder="firstName" class="form-control">  <br>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Last name</span>
+        </div>
+        <input type="text" name="lastName" placeholder="lastName" class="form-control"> <br>
+    </div>
+    <button type="submit" name="register">Register</button>
+
+
+    <br>
+</form>
+{% include 'footer.html' %}
 </body>
 </html>

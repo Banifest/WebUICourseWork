@@ -12,7 +12,7 @@ class RegView(CustomTemplateView):
     def get(self, request, *args, **kwargs):
         if 'login' in request.POST:
             return redirect('MainView', permanent=True)
-        return self.render_to_response(context={})
+        return self.re_render_to_response(context={}, request=request)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         user = do_request(

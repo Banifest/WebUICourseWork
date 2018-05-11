@@ -3,8 +3,8 @@ from django.http import HttpRequest
 
 from webui.exceptions import AuthException, ErrorStatus
 
-#BASE_API_URL = 'http://127.0.0.1:8000/api'
-BASE_API_URL = 'https://pscaserv.herokuapp.com/api'
+BASE_API_URL = 'http://127.0.0.1:8000/api'
+# BASE_API_URL = 'https://pscaserv.herokuapp.com/api'
 
 
 def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str = None, data: dict = None,
@@ -47,11 +47,15 @@ def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str
                 headers={'X-CSRFTOKEN': request.COOKIES['csrftoken']},
         )
 
-    if 'detail' in res.json() and res.json()['detail'] == 'Authentication credentials were not provided.':
-         raise AuthException()
-
     if res.status_code // 100 in {4, 5}:
-        raise ErrorStatus(res.status_code, res.json())
+        try:
+            res.json()
+        except:
+            raise ErrorStatus(res.status_code, {'detail': ''})
+        else:
+            if 'detail' in  res.json() and res.json()['detail'] == 'Authentication credentials were not provided.':
+                raise AuthException()
+            raise ErrorStatus(res.status_code, res.json())
 
     return res
 
