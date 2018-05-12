@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.utils.deprecation import MiddlewareMixin
@@ -16,6 +15,9 @@ class HandleExceptionMiddleware(MiddlewareMixin):
             response.delete_cookie('csrftoken')
             return response
         elif isinstance(exception, ErrorStatus):
-            response = redirect('{0}?status_code={1}'.format(request.path,  exception.detail['detail']),
-                                permanent=True)
+            # noinspection PyTypeChecker
+            response = redirect(
+                    '{0}?status_code={1}'.format(request.path, exception.detail['detail']),
+                    permanent=True
+            )
             return response
