@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 
 from webui.CustomTemplateView import CustomTemplateView
 from webui.exceptions import ErrorStatus, AuthException
-from webui.req import BASE_API_URL
+from webui.req import BASE_API_URL, do_request
 
 
 class AuthView(CustomTemplateView):
@@ -18,13 +18,15 @@ class AuthView(CustomTemplateView):
         return self.re_render_to_response(context={}, request=request)
 
     def post(self, request: HttpRequest) -> HttpResponse:
-        res = requests.request(
-                'POST',
-                BASE_API_URL + '/users/login/',
-                json={
-                    'username': request.POST['login'],
+        res = do_request(
+                method='POST',
+                request=request,
+                obj=request.POST['login'] + '/login',
+                data={
+                    #'username': request.POST['login'],
                     'password': request.POST['password']
                 },
+                auth=False
         )
         if res.status_code == 201:
             response = redirect('main.html', permanent=True, )
