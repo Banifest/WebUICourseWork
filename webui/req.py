@@ -7,13 +7,11 @@ from webui.exceptions import AuthException, ErrorStatus
 BASE_API_URL = 'https://pscaserv.herokuapp.com/api'
 
 
-
-
 def do_request(method: str, url: str = '', request: HttpRequest = None, obj: str = None, data: dict = None,
                query: dict = None, auth=True) \
         -> requests.Response:
     request_url: str
-    if auth == True and 'login' not in request.COOKIES:
+    if auth and 'login' not in request.COOKIES:
         raise AuthException()
 
     if auth:

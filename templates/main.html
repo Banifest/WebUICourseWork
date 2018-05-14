@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title> {{ user_info.username }}</title>
-
+    <script src="http://danml.com/js/download2.js"></script>
 </head>
 <body>
 {% include 'header.html' %}
-
 <dl>
     <div class="container">
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#createGroupCollapse"
                 aria-expanded="false" aria-controls="createGroupCollapse">
             Create group
+        </button>
+        <button class="btn btn-primary"
+                onclick="download(JSON.stringify({{ groups }}), 'refs.json', 'application.json')">
+            Download json
         </button>
         <form method="post" class="collapse" id="createGroupCollapse">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
@@ -101,7 +104,7 @@
                                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                 <input type="hidden" name="ref-id" value="{{ reference.id }}">
                                 <input type="url" name="url">
-                                <input type="name" name="name">
+                                <input type="text" name="name">
                                 <button type="submit" name="change-ref">Change reference</button>
                             </form>
                         </div>
