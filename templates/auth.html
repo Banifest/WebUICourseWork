@@ -8,9 +8,6 @@
 {% include 'header.html' %}
 
 <form method="post" action="auth.html" class="container">
-    {% if error %}
-        <p>{{ error }}</p>
-    {% endif %}
     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     <div class="input-group mb-3">
         <div class="input-group-prepend">

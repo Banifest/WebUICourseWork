@@ -15,9 +15,12 @@ class HandleExceptionMiddleware(MiddlewareMixin):
             response.delete_cookie('csrftoken')
             return response
         elif isinstance(exception, ErrorStatus):
+            detail: str = ''
+            detail = exception.detail['detail'] if 'detail' in exception else detail
+            detail = exception.detail['username'] if 'username' in exception else detail
             # noinspection PyTypeChecker
             response = redirect(
-                    '{0}?status_code={1}'.format(request.path, exception.detail['detail']),
+                    '{0}?status_code={1}'.format(request.path, detail),
                     permanent=True
             )
             return response
