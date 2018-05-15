@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title> {{ user_info.username }}</title>
-    <script src="http://danml.com/js/download2.js"></script>
+    <script src="{{ static("js/download2.js") }}"></script>
 </head>
 <body>
 {% include 'header.html' %}
@@ -19,12 +19,24 @@
         </button>
         <form method="post" class="collapse" id="createGroupCollapse">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-            <input type="number" name="priority" placeholder="priority of group">
-            <p>Select color</p>
-            <label>
-                <input type="color" name="color">
-            </label><br>
-            <input type="text" name="name" placeholder="name of group"><br>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Select color:</span>
+                </div>
+                <input type="color" name="color"> <br>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Name of group:</span>
+                </div>
+                <input type="text" name="name" placeholder="name of group"><br>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">Priority:</span>
+                </div>
+                <input type="number" name="priority" placeholder="priority of group">
+            </div>
             <button type="submit" class="btn btn-primary" name="add-group">Create group</button>
         </form>
     </div>
@@ -58,7 +70,12 @@
                 <form method="post" class="collapse" id="changeColorCollapse{{ group.id }}">
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                     <input type="hidden" name="group-id" value="{{ group.id }}">
-                    <input type="color" name="color">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Select color:</span>
+                        </div>
+                        <input type="color" name="color"> <br>
+                    </div>
                     <button type="submit" class="btn btn-primary" name="change-color">Change color</button>
                 </form>
                 <form method="post" class="collapse" id="deleteGroupCollapse{{ group.id }}">
@@ -71,11 +88,19 @@
                     Add reference
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                     <input type="hidden" name="group-id" value="{{ group.id }}">
-
-                    <input type="url" name="url" placeholder="Input url">
-                    <input type="text" name="name" placeholder="Input site name">
-
-                    <button type="submit" class="btn btn-primary"    name="add-ref">Add reference</button>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Select color:</span>
+                        </div>
+                        <input type="url" name="url" placeholder="Input url">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Select color:</span>
+                        </div>
+                        <input type="text" name="name" placeholder="Input site name">
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="add-ref">Add reference</button>
                 </form>
                 <dd>
                     {% for reference in group.refs %}
@@ -103,8 +128,18 @@
                             <form method="post" class="collapse" id="changeRefCollapse{{ reference.id }}">
                                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                 <input type="hidden" name="ref-id" value="{{ reference.id }}">
-                                <input type="url" name="url">
-                                <input type="text" name="name">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Select color:</span>
+                                    </div>
+                                    <input type="url" name="url">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1">Select color:</span>
+                                    </div>
+                                    <input type="text" name="name">
+                                </div>
                                 <button type="submit" name="change-ref">Change reference</button>
                             </form>
                         </div>
