@@ -16,8 +16,10 @@ class HandleExceptionMiddleware(MiddlewareMixin):
             return response
         elif isinstance(exception, ErrorStatus):
             detail: str = ''
-            detail = exception.detail['detail'] if 'detail' in exception else detail
-            detail = exception.detail['username'] if 'username' in exception else detail
+            if 'detail' in exception.detail:
+                detail = exception.detail['detail']
+            elif 'username' in exception.detail:
+                detail = exception.detail['username']
             # noinspection PyTypeChecker
             response = redirect(
                     '{0}?status_code={1}'.format(request.path, detail),
